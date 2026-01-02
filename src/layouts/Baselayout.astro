@@ -7,7 +7,7 @@ import SpeedInsights from '@vercel/speed-insights/astro';
 
 const { pathname } = Astro.url;
 
-const hideNavAndFooter = ['/'].includes(pathname);
+const hideFooter = ['/'].includes(pathname);
 ---
 
 <html lang='en' data-theme='mytheme'>
@@ -21,6 +21,7 @@ const hideNavAndFooter = ['/'].includes(pathname);
 			rel='stylesheet'
 		/>
 		<link rel='preload' as='video' href='/hero_video.mp4' />
+		<link rel='preload' as='image' href='/album_cover_final.png' />
 		<meta name='viewport' content='width=device-width' />
 		<meta name='generator' content={Astro.generator} />
 		<title>mack johnson</title>
@@ -28,11 +29,10 @@ const hideNavAndFooter = ['/'].includes(pathname);
 		<SpeedInsights />
 	</head>
 	<body>
-		<!-- {!hideNavAndFooter && <Navbar />} -->
 		<Navbar />
 		<main>
 			<slot />
 		</main>
-		{!hideNavAndFooter && <Footer />}
+		{!hideFooter && <Footer />}
 	</body>
 </html>
