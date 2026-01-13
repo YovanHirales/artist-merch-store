@@ -1,9 +1,25 @@
 ---
 import Baselayout from '../layouts/Baselayout.astro';
-import Hero from '../components/Hero.astro';
-import VideoBackground from '../components/VideoBackground.astro';
 ---
 
 <Baselayout>
-	<VideoBackground />
+	<div class='relative hero overflow-hidden'>
+		<video
+			autoplay
+			loop
+			muted
+			playsinline
+			class='fixed inset-0 w-full h-full object-cover scale-115 z-[-1]'
+		>
+			<source src='/hero_video.mp4' type='video/mp4' />
+			Your browser does not support the video tag.
+		</video>
+		<div
+			class='fixed inset-0 z-10 flex flex-col gap-10 items-center justify-center text-white'
+		>
+			<a href='/music'>
+				<img class='p-10' src='/logo_red.png' />
+			</a>
+		</div>
+	</div>
 </Baselayout>

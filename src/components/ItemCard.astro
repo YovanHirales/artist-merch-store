@@ -1,10 +1,11 @@
 ---
 import ImageCarousel from './ImageCarousel.astro';
+import SizePicker from './SizePicker.tsx';
 
-const { title, price, img1, img2, alt, idSuffix } = Astro.props;
+const { title, price, productId, img1, img2, alt, idSuffix } = Astro.props;
 ---
 
-<div class='card bg-transparent w-100 h-100'>
+<div class='card bg-transparent w-120 h-120'>
 	<figure class='px-10 pt-10'>
 		{
 			img2 ? (
@@ -16,26 +17,15 @@ const { title, price, img1, img2, alt, idSuffix } = Astro.props;
 	</figure>
 	<div class='card-body items-center text-center'>
 		<h2 class='font-RockSalt m-1 card-title'>{title}</h2>
-		<!-- <p>
-			${price}
-		</p> -->
+		<p class='text-sm uppercase tracking-wide'>${price}</p>
 		<div class='card-actions'>
-			<button role='button'>
-				<!-- Add to cart icon -->
-				<p class='font-RockSalt'>coming soon</p>
-				<!-- <svg
-					xmlns='http://www.w3.org/2000/svg'
-					fill='none'
-					viewBox='0 0 24 24'
-					stroke-width='1.5'
-					class='size-6 stroke-current'
-				>
-					<path
-						stroke-linecap='round'
-						stroke-linejoin='round'
-						d='M12 4.5v15m7.5-7.5h-15'></path>
-				</svg> -->
-			</button>
+			<SizePicker
+				client:load
+				productId={productId}
+				title={title}
+				price={price}
+				imgUrl={img1}
+			/>
 		</div>
 	</div>
 </div>
