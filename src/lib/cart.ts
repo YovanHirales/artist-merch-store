@@ -33,17 +33,17 @@ export function addToCart(item: CartItem) {
 	const priceIdTable = {
 		// Hoodie
 		prod_TNN00mtYK7DPx8: {
-			S: 'price_1SkvhUQUcTF9g5AtwjzUCTlS',
-			M: 'price_1SkvhjQUcTF9g5AtlAq8cnXX',
-			L: 'price_1SkvhvQUcTF9g5AtM423MFy3',
-			XL: 'price_1SkIDAQUcTF9g5AtJjkTieqq',
+			S: import.meta.env.PUBLIC_PRICE_HOODIE_S,
+			M: import.meta.env.PUBLIC_PRICE_HOODIE_M,
+			L: import.meta.env.PUBLIC_PRICE_HOODIE_L,
+			XL: import.meta.env.PUBLIC_PRICE_HOODIE_XL,
 		},
 		// Tee
 		prod_Tf2DdwjhTzLsCj: {
-			S: 'price_1Shi9OQUcTF9g5AtFPfcP132',
-			M: 'price_1SkGL1QUcTF9g5At9SzhcMqo',
-			L: 'price_1SkGLxQUcTF9g5AtOa5HtEOe',
-			XL: 'price_1SkGMVQUcTF9g5AtAdmdnN8F',
+			S: import.meta.env.PUBLIC_PRICE_TEE_S,
+			M: import.meta.env.PUBLIC_PRICE_TEE_M,
+			L: import.meta.env.PUBLIC_PRICE_TEE_L,
+			XL: import.meta.env.PUBLIC_PRICE_TEE_XL,
 		},
 	};
 
