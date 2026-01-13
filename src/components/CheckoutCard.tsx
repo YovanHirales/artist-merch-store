@@ -57,17 +57,21 @@ export default function CheckoutCard() {
 			setIsCheckingOut(true);
 			setCheckoutError(null);
 
+			const items = cartItems.map((item) => ({
+				priceId: item.priceId,
+				quantity: item.qty,
+				productId: item.productId,
+				size: item.size,
+			}));
+
+			// Temporary debug log to compare client cart items with server allowlist.
+			// Check this in the browser console on your Vercel preview.
+			console.log('Checkout items being sent to API:', items);
+
 			const res = await fetch('/api/create-checkout-session', {
 				method: 'POST',
 				headers: { 'content-type': 'application/json' },
-				body: JSON.stringify({
-					items: cartItems.map((item) => ({
-						priceId: item.priceId,
-						quantity: item.qty,
-						productId: item.productId,
-						size: item.size,
-					})),
-				}),
+				body: JSON.stringify({ items }),
 			});
 
 			const data = await res.json().catch(() => ({}));
