@@ -4,27 +4,22 @@ export const prerender = false;
 
 const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY);
 
+// Security: Price IDs must be provided via STRIPE_ALLOWED_PRICE_IDS env var.
+// Order doesn't matter (stored in a Set). Format: comma-separated, e.g.:
+// STRIPE_ALLOWED_PRICE_IDS=price_1ABC...,price_1XYZ...,price_1DEF...
+const priceIdsEnv = String(
+	import.meta.env.STRIPE_ALLOWED_PRICE_IDS || ''
+).trim();
+if (!priceIdsEnv) {
+	throw new Error(
+		'STRIPE_ALLOWED_PRICE_IDS environment variable is required. Set it to a comma-separated list of Stripe price IDs.'
+	);
+}
 const ALLOWED_PRICE_IDS = new Set(
-	String(import.meta.env.STRIPE_ALLOWED_PRICE_IDS || '')
+	priceIdsEnv
 		.split(',')
 		.map((s) => s.trim())
-		.filter(Boolean).length
-		? String(import.meta.env.STRIPE_ALLOWED_PRICE_IDS)
-				.split(',')
-				.map((s) => s.trim())
-				.filter(Boolean)
-		: [
-				// Hoodie
-				'price_1SkvhUQUcTF9g5AtwjzUCTlS',
-				'price_1SkvhjQUcTF9g5AtlAq8cnXX',
-				'price_1SkvhvQUcTF9g5AtM423MFy3',
-				'price_1SkIDAQUcTF9g5AtJjkTieqq',
-				// Tee
-				'price_1Shi9OQUcTF9g5AtFPfcP132',
-				'price_1SkGL1QUcTF9g5At9SzhcMqo',
-				'price_1SkGLxQUcTF9g5AtOa5HtEOe',
-				'price_1SkGMVQUcTF9g5AtAdmdnN8F',
-		  ]
+		.filter(Boolean)
 );
 
 export async function POST({ request }) {
@@ -87,6 +82,8 @@ export async function POST({ request }) {
 			cancel_url: `${origin}/cart_review`,
 			// Required if you want Checkout to collect shipping addresses.
 			shipping_address_collection: { allowed_countries: allowedCountries },
+			// Enable automatic tax calculation based on customer's shipping address
+			automatic_tax: { enabled: true },
 			metadata: {
 				cart: JSON.stringify(
 					items.map(({ productId, size, quantity, priceId }) => ({

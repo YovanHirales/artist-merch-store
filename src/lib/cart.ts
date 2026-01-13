@@ -15,7 +15,6 @@ export function getCart(): CartItem[] {
 		const raw = window.localStorage.getItem(CART_KEY);
 		if (!raw) return [];
 		const parsed = JSON.parse(raw);
-		console.log('cart', parsed);
 		return Array.isArray(parsed) ? parsed : [];
 	} catch {
 		return [];
