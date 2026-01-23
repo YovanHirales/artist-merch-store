@@ -50,7 +50,12 @@ export async function POST({ request }) {
 				typeof item.quantity === 'number' && item.quantity > 0
 					? item.quantity
 					: 1;
-			line_items.push({ price: priceId, quantity: qty });
+			// Add metadata to each line item for easy viewing in Stripe dashboard
+			line_items.push({
+				price: priceId,
+				quantity: qty,
+				adjustable_quantity: { enabled: false },
+			});
 		}
 
 		const origin = getRequestOrigin(request);
@@ -75,6 +80,43 @@ export async function POST({ request }) {
 			import.meta.env.STRIPE_SHIPPING_RATE_ID || ''
 		).trim();
 
+		// Build readable metadata for easy viewing in Stripe dashboard
+		const orderSummary = items
+			.map((item, idx) => {
+				const size = item.size || 'N/A';
+				const qty = item.quantity || 1;
+				const title = item.title || item.productId || 'Unknown';
+				return `Item ${idx + 1}: ${title} - Size ${size} x${qty}`;
+			})
+			.join(' | ');
+
+		// Build individual metadata fields for each item
+		const metadata = {
+			// Human-readable order summary
+			order_summary: orderSummary,
+			// Total number of items
+			total_items: items.reduce((sum, item) => sum + (item.quantity || 1), 0).toString(),
+			// Full cart details as JSON (for programmatic access)
+			cart: JSON.stringify(
+				items.map(({ productId, size, quantity, priceId, title }) => ({
+					productId,
+					title: title || 'Unknown',
+					size,
+					quantity,
+					priceId,
+				}))
+			),
+		};
+
+		// Add individual item metadata fields (Stripe metadata keys are limited to 50 chars)
+		items.forEach((item, idx) => {
+			const itemNum = idx + 1;
+			metadata[`item_${itemNum}_size`] = item.size || 'N/A';
+			metadata[`item_${itemNum}_qty`] = String(item.quantity || 1);
+			metadata[`item_${itemNum}_title`] = item.title || item.productId || 'Unknown';
+			metadata[`item_${itemNum}_product`] = item.productId || 'Unknown';
+		});
+
 		const sessionCreateParams = {
 			mode: 'payment',
 			line_items,
@@ -84,15 +126,11 @@ export async function POST({ request }) {
 			shipping_address_collection: { allowed_countries: allowedCountries },
 			// Enable automatic tax calculation based on customer's shipping address
 			automatic_tax: { enabled: true },
-			metadata: {
-				cart: JSON.stringify(
-					items.map(({ productId, size, quantity, priceId }) => ({
-						productId,
-						size,
-						quantity,
-						priceId,
-					}))
-				),
+			// Metadata on the Checkout Session (visible in Checkout Sessions section)
+			metadata,
+			// Also add metadata to Payment Intent (visible in Payments section)
+			payment_intent_data: {
+				metadata,
 			},
 		};
 
