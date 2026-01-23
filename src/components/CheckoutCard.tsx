@@ -66,6 +66,7 @@ export default function CheckoutCard() {
 						quantity: item.qty,
 						productId: item.productId,
 						size: item.size,
+						title: item.title,
 					})),
 				}),
 			});
