@@ -1,6 +1,9 @@
 ---
 import Baselayout from '../layouts/Baselayout.astro';
 import ItemCard from '../components/ItemCard.astro';
+
+const PRODUCT_HOODIE = import.meta.env.PUBLIC_PRODUCT_HOODIE;
+const PRODUCT_TEE = import.meta.env.PUBLIC_PRODUCT_TEE;
 ---
 
 <Baselayout>
@@ -9,7 +12,7 @@ import ItemCard from '../components/ItemCard.astro';
 		class='py-15 bg-primary flex flex-wrap justify-around items-center align-middle gap-10 md:gap-0 md:px-20 md:min-h-[calc(100vh-15rem)]'
 	>
 		<ItemCard
-			productId='prod_TqDa5kQZy7SB6e'
+			productId={PRODUCT_HOODIE}
 			title='Vol. 1 Hoodie'
 			idSuffix='card-1'
 			price='65'
@@ -18,7 +21,7 @@ import ItemCard from '../components/ItemCard.astro';
 			alt='Black vol. 1 hoodie'
 		/>
 		<ItemCard
-			productId='prod_TqDcTbunoyCGT6'
+			productId={PRODUCT_TEE}
 			title='Dreamchaser Tee'
 			idSuffix='card-2'
 			price='35'
