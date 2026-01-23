@@ -30,16 +30,19 @@ export function setCart(items: CartItem[]) {
 export function addToCart(item: CartItem) {
 	const cart = getCart();
 
+	const PRODUCT_HOODIE = import.meta.env.PUBLIC_PRODUCT_HOODIE;
+	const PRODUCT_TEE = import.meta.env.PUBLIC_PRODUCT_TEE;
+
 	const priceIdTable = {
 		// Hoodie
-		prod_TqDa5kQZy7SB6e: {
+		[PRODUCT_HOODIE]: {
 			S: import.meta.env.PUBLIC_PRICE_HOODIE_S,
 			M: import.meta.env.PUBLIC_PRICE_HOODIE_M,
 			L: import.meta.env.PUBLIC_PRICE_HOODIE_L,
 			XL: import.meta.env.PUBLIC_PRICE_HOODIE_XL,
 		},
 		// Tee
-		prod_TqDcTbunoyCGT6: {
+		[PRODUCT_TEE]: {
 			S: import.meta.env.PUBLIC_PRICE_TEE_S,
 			M: import.meta.env.PUBLIC_PRICE_TEE_M,
 			L: import.meta.env.PUBLIC_PRICE_TEE_L,

@@ -90,23 +90,14 @@ export async function POST({ request }) {
 			})
 			.join(' | ');
 
-		// Build individual metadata fields for each item
+		// Build metadata object - use prefix to make summary appear first (Stripe orders alphabetically)
 		const metadata = {
-			// Human-readable order summary
-			order_summary: orderSummary,
-			// Total number of items
-			total_items: items.reduce((sum, item) => sum + (item.quantity || 1), 0).toString(),
-			// Full cart details as JSON (for programmatic access)
-			cart: JSON.stringify(
-				items.map(({ productId, size, quantity, priceId, title }) => ({
-					productId,
-					title: title || 'Unknown',
-					size,
-					quantity,
-					priceId,
-				}))
-			),
+			// Human-readable order summary (prefix with "0_" to appear first alphabetically)
+			'0_order_summary': orderSummary,
 		};
+
+		// Add total items
+		metadata.total_items = items.reduce((sum, item) => sum + (item.quantity || 1), 0).toString();
 
 		// Add individual item metadata fields (Stripe metadata keys are limited to 50 chars)
 		items.forEach((item, idx) => {
@@ -116,6 +107,17 @@ export async function POST({ request }) {
 			metadata[`item_${itemNum}_title`] = item.title || item.productId || 'Unknown';
 			metadata[`item_${itemNum}_product`] = item.productId || 'Unknown';
 		});
+
+		// Add full cart details as JSON (for programmatic access) - last
+		metadata.cart = JSON.stringify(
+			items.map(({ productId, size, quantity, priceId, title }) => ({
+				productId,
+				title: title || 'Unknown',
+				size,
+				quantity,
+				priceId,
+			}))
+		);
 
 		const sessionCreateParams = {
 			mode: 'payment',
