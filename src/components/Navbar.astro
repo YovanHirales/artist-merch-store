@@ -6,6 +6,7 @@ const { pathname } = Astro.url;
 const isIndex = pathname === '/';
 const isMerch = pathname.startsWith('/merch');
 const isMusic = pathname.startsWith('/music');
+const showCartLink = !isIndex && !isMerch && !isMusic;
 
 // Small Screens
 const mainDiv = isIndex
@@ -25,7 +26,7 @@ const menuList = isIndex
 	<!-- Small Screens: Cart | Hamburger Menu -->
 	<div class={buttonDiv}>
 		<!-- Cart -->
-		{!isIndex && <CartSummary client:load />}
+		{showCartLink && <CartSummary client:load />}
 		<!-- Hamburger icon -->
 		<div class='dropdown dropdown-center stroke-red-500'>
 			<button
@@ -117,7 +118,7 @@ const menuList = isIndex
 				)
 			}
 			{
-				!isIndex && (
+				showCartLink && (
 					<li>
 						<CartSummary client:load />
 					</li>
