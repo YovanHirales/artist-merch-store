@@ -1,0 +1,13 @@
+---
+import Baselayout from '../layouts/Baselayout.astro';
+import CheckoutCards from '../components/CheckoutCard.tsx';
+---
+
+<Baselayout>
+	<!-- Item Container -->
+	<div
+		class='py-15 bg-primary flex flex-wrap justify-center items-center align-middle gap-10 md:gap-0 md:px-20 min-h-[calc(100vh-15rem)]'
+	>
+		<CheckoutCards client:load />
+	</div>
+</Baselayout>

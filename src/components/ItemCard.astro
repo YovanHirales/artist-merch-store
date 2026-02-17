@@ -1,18 +1,29 @@
 ---
 import ImageCarousel from './ImageCarousel.astro';
+import SizePicker from './SizePicker.tsx';
 
 const {
 	title,
 	price,
+	productId,
 	img1,
 	img2,
 	alt,
 	idSuffix,
 	soldOut = false,
-} = Astro.props;
+} = Astro.props as {
+	title: string;
+	price: number;
+	productId?: string;
+	img1: string;
+	img2?: string;
+	alt: string;
+	idSuffix: string;
+	soldOut?: boolean;
+};
 ---
 
-<div class='card bg-transparent w-100 h-100'>
+<div class='card bg-transparent w-120 h-120'>
 	<figure class='px-10 pt-10'>
 		{
 			img2 ? (
@@ -29,6 +40,14 @@ const {
 			{
 				soldOut ? (
 					<p class='text-lg text-gray-500'>SOLD OUT</p>
+				) : productId ? (
+					<SizePicker
+						client:load
+						productId={productId}
+						title={title}
+						price={price}
+						imgUrl={img1}
+					/>
 				) : (
 					<p class='font-RockSalt'>coming soon</p>
 				)

@@ -1,0 +1,44 @@
+---
+import Baselayout from '../../layouts/Baselayout.astro';
+---
+
+<Baselayout>
+	<script type='module'>
+		const CART_KEY = 'local_cart';
+
+		const url = new URL(window.location.href);
+		const sessionId = url.searchParams.get('session_id');
+
+		// Only clear after a successful Stripe redirect that includes a session_id.
+		if (sessionId) {
+			try {
+				const res = await fetch('/api/verify-checkout-session', {
+					method: 'POST',
+					headers: { 'content-type': 'application/json' },
+					body: JSON.stringify({ sessionId }),
+				});
+				const data = await res.json().catch(() => ({}));
+				if (res.ok && data?.paid === true) {
+					window.localStorage.removeItem(CART_KEY);
+					window.dispatchEvent(new Event('cart-update'));
+				}
+			} catch {
+				// If verification fails, do not clear the cart.
+			}
+		}
+	</script>
+	<div
+		class='p-15 bg-primary flex justify-center items-center min-h-[calc(100vh-15rem)]'
+	>
+		<div class='flex-col text-center justify-center items-center'>
+			<p>Thank you for your preorder!</p>
+			<p>You will receive an email with your order details.</p>
+			<p>
+				If you have any questions, please contact us at
+				prodbymackjohnson@gmail.com.
+			</p>
+			<p>Sincerely,</p>
+			<p>Mack Johnson</p>
+		</div>
+	</div>
+</Baselayout>

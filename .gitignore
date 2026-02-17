@@ -3,6 +3,9 @@ dist/
 # generated types
 .astro/
 
+# Vercel
+.vercel/
+
 # dependencies
 node_modules/
 
@@ -30,8 +33,3 @@ brand_notes.txt
 /public/ride_out_final_clip1.mp4
 
 notes.txt
-
-src/pages/api
-
-src/pages/checkout
-
