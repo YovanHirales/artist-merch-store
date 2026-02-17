@@ -11,6 +11,7 @@ export type CartItem = {
 const CART_KEY = 'local_cart';
 
 export function getCart(): CartItem[] {
+	if (typeof window === 'undefined') return [];
 	try {
 		const raw = window.localStorage.getItem(CART_KEY);
 		if (!raw) return [];
@@ -28,8 +29,6 @@ export function setCart(items: CartItem[]) {
 }
 
 export function addToCart(item: CartItem) {
-	const cart = getCart();
-
 	const PRODUCT_HOODIE = import.meta.env.PUBLIC_PRODUCT_HOODIE;
 	const PRODUCT_TEE = import.meta.env.PUBLIC_PRODUCT_TEE;
 
@@ -50,17 +49,24 @@ export function addToCart(item: CartItem) {
 		},
 	};
 
-	item.priceId =
-		priceIdTable[item.productId as keyof typeof priceIdTable][item.size];
+	const priceIdBySize = priceIdTable[item.productId as keyof typeof priceIdTable];
+	if (!priceIdBySize) return;
 
-	const existing = cart.find((x) => x.priceId === item.priceId);
-	if (existing) {
-		existing.qty += item.qty;
-	} else {
-		cart.push(item);
-	}
+	const resolvedPriceId = priceIdBySize[item.size];
+	if (!resolvedPriceId) return;
 
-	setCart(cart);
+	// Never mutate caller-owned `item` or existing cart rows in place.
+	// Build a new cart array from the latest localStorage snapshot.
+	const cart = getCart();
+	const existing = cart.find((x) => x.priceId === resolvedPriceId);
+
+	const nextCart = existing
+		? cart.map((x) =>
+				x.priceId === resolvedPriceId ? { ...x, qty: x.qty + item.qty } : x
+			)
+		: [...cart, { ...item, priceId: resolvedPriceId }];
+
+	setCart(nextCart);
 }
 
 export function clearCart() {

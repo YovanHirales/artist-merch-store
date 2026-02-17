@@ -27,7 +27,7 @@ export default function CheckoutCard() {
 	}, []);
 
 	const removeItem = (priceId: string) => {
-		const updated = cartItems.filter((item) => item.priceId !== priceId);
+		const updated = getCart().filter((item) => item.priceId !== priceId);
 		setCart(updated);
 		setCartItems(updated);
 	};
@@ -37,7 +37,7 @@ export default function CheckoutCard() {
 			removeItem(priceId);
 			return;
 		}
-		const updated = cartItems.map((item) =>
+		const updated = getCart().map((item) =>
 			item.priceId === priceId ? { ...item, qty: newQty } : item
 		);
 		setCart(updated);
