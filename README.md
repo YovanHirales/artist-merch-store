@@ -4,8 +4,11 @@ Production e-commerce store built for an independent music artist to sell brande
 
 ## Screenshots
 
-![Merch Store](screenshots/merch.png)
-![Homepage](screenshots/home.png)
+![Homepage](screenshots/home_desktop.png)
+![Homepage](screenshots/home_mobile.jpg)
+
+![Merch Store](screenshots/merch_desktop.png)
+![Merch Store](screenshots/merch_mobile.jpg)
 
 ## Overview
 
@@ -34,4 +37,3 @@ Built and deployed a fully functional merch store handling real customer transac
 **Stripe Hosted Checkout** — Chose Stripe's hosted checkout over a custom payment form to offload PCI compliance and reduce implementation risk for a client handling real transactions. Configured webhooks to verify payment completion server-side.
 
 **Astro + React island architecture** — Used Astro for the static shell for performance, with React components hydrated only where interactivity was needed (product selector, cart).
-
