@@ -4,11 +4,11 @@ Production e-commerce store built for an independent music artist to sell brande
 
 ## Screenshots
 
-![Homepage](screenshots/home_desktop.png)
-![Homepage](screenshots/home_mobile.jpg)
+<img src="screenshots/home_desktop.png" alt="Homepage Desktop" width="600">
+<img src="screenshots/home_mobile.jpg" alt="Homepage Mobile" width="250">
 
-![Merch Store](screenshots/merch_desktop.png)
-![Merch Store](screenshots/merch_mobile.jpg)
+<img src="screenshots/merch_desktop.png" alt="Merch Store Desktop" width="600">
+<img src="screenshots/merch_mobile.jpg" alt="Merch Store Mobile" width="250">
 
 ## Overview
 
