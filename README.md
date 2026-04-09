@@ -39,5 +39,3 @@ Built and deployed a fully functional merch store handling real customer transac
 **Stripe Hosted Checkout** — Chose Stripe's hosted checkout over a custom payment form to offload PCI compliance and reduce implementation risk for a client handling real transactions. Configured webhooks to verify payment completion server-side.
 
 **Astro + React island architecture** — Used Astro for the static shell for performance, with React components hydrated only where interactivity was needed (product selector, cart).
-
-> > > > > > > a82b966545500027b3796063e2bef53bf9f2370f
