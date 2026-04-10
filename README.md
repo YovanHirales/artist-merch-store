@@ -2,7 +2,7 @@
 
 # Artist Merch Store
 
-Production e-commerce store built for an independent music artist to sell branded merchandise. Live at [mackraps.com/merch](https://www.mackraps.com/merch).
+Production e-commerce store built for an independent music artist to sell branded merchandise. Live at [mackraps.com/merch](https://www.mackraps.com).
 
 ## Screenshots
 
